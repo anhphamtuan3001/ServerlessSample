@@ -1,0 +1,47 @@
+service: my-services
+custom:
+  bucket: sample-upload
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: dev
+  region: us-west-2
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - s3:*
+        - dynamodb:*
+        - lambda:*
+      Resource:
+        - "*"
+functions:
+  upload:
+    handler: upload.handle
+    events:
+      - http:
+          path: upload
+          method: post
+  after_upload:
+    handler: after_upload.store_metadata_for_dynamo
+    events:
+      - s3:
+          bucket: "sample-uploads"
+          event: s3:ObjectCreated:*
+resources:
+  Resources:
+    ImagesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: "sample-items"
+        AttributeDefinitions:
+          - 
+            AttributeName: file_name
+            AttributeType: S
+        KeySchema:
+          - 
+            AttributeName: file_name
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
