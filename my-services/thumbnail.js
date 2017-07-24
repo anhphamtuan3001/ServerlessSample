@@ -6,7 +6,8 @@ const s3 = new AWS.S3();
 module.exports.create = (event, context, callback) => {
   console.log(JSON.stringify(event, undefined, 1));
   console.log(JSON.stringify(context, undefined, 1));
-  const originalBucket = 'sample-uploads';
+  
+  const originalBucket  = 'sample-uploads';
   const thumbnailBucket = 'sample-thumbnails';
   const objectKey = 'pixta.jpg';
 
