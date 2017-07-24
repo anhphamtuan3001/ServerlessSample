@@ -27,7 +27,7 @@ module.exports.handle = (event, context, callback) => {
       callback(null, generateResponse(event, err.statusCode, err.message));
     } else {
       console.log(data);
-      callback(null, generateResponse(event, err.statusCode, err.message));
+      callback(null, generateResponse(event, 200, 'Upload Success!!'));
     }
   });
 };
