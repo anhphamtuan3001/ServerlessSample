@@ -21,18 +21,18 @@ module.exports.handle = (event, context, callback) => {
   };
 
   var bucket = new aws.S3(options);
-  var statusCode = 200;
-  var resultMsg  = 'Upload success!!';
   bucket.putObject(params, function(err, data) {
     if (err) {
-      statusCode = err.statusCode;
-      resultMsg  = err.message;
       console.log(err, err.stack);
+      callback(null, generateResponse(event, err.statusCode, err.message));
     } else {
       console.log(data);
+      callback(null, generateResponse(event, err.statusCode, err.message));
     }
   });
+};
 
+function generateResponse(event, statusCode, resultMsg) {
   const response = {
     statusCode: statusCode,
     body: JSON.stringify({
@@ -40,5 +40,5 @@ module.exports.handle = (event, context, callback) => {
       input: event,
     }),
   };
-  callback(null, response);
-};
+  return response;
+}
