@@ -1,6 +1,4 @@
 service: my-services
-custom:
-  bucket: sample-upload
 
 provider:
   name: aws

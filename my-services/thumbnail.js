@@ -1,8 +1,6 @@
-const async = require('async');
 const AWS = require('aws-sdk');
 AWS.config.region = 'us-west-2';
 const gm = require('gm').subClass({ imageMagick: true });
-const util = require('util');
 const s3 = new AWS.S3();
 
 module.exports.create = (event, context, callback) => {

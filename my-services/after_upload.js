@@ -11,9 +11,10 @@ module.exports.store_metadata_for_dynamo = (event, context, callback) => {
     var params = {
       TableName: 'sample-items',
       Item: {
-        'bucket':    { "S": record.s3.bucket.name },
-        'file_name': { "S": record.s3.object.key },
-        'size':      { "N": record.s3.object.size.toString() }
+        'bucket':      { "S": record.s3.bucket.name },
+        'file_name':   { "S": record.s3.object.key },
+        'size':        { "N": record.s3.object.size.toString() },
+        'uploaded_at': { "N": (new Date()).getTime().toString() }
       }
     };
     dynamoDB.putItem(params, function (err, data) {
